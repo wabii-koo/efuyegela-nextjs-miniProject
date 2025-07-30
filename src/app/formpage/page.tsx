@@ -3,16 +3,20 @@
 import React, { useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useCommentStore } from '../store/useCommentStore'; 
+import { useCommentStore } from '../store/useCommentStore';
 
 const FormPage = () => {
   const router = useRouter();
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const commentRef = useRef(null);
-  const addComment = useCommentStore((state) => state.addComment); 
 
-  const handleSubmit = (e) => {
+ 
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const commentRef = useRef<HTMLTextAreaElement>(null);
+
+  const addComment = useCommentStore((state) => state.addComment);
+
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const name = nameRef.current?.value.trim();
@@ -21,8 +25,8 @@ const FormPage = () => {
 
     if (name && email && comment) {
       const newComment = { name, email, comment };
-      addComment(newComment); 
-      router.push('/comments'); 
+      addComment(newComment);
+      router.push('/comments');
     }
   };
 
@@ -46,10 +50,26 @@ const FormPage = () => {
                 required
                 className="block w-full mb-2 p-2 rounded border"
               />
-              <input ref={emailRef} type="email" name="email" placeholder="Your Email"  required className="block w-full mb-2 p-2 rounded border" />
-              <textarea  ref={commentRef}  name="comment"  rows="5" placeholder="Your Comment"  required className="block w-full p-2 rounded border" ></textarea>
+              <input
+                ref={emailRef}
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                required
+                className="block w-full mb-2 p-2 rounded border"
+              />
+              <textarea
+                ref={commentRef}
+                name="comment"
+                rows={5}
+                placeholder="Your Comment"
+                required
+                className="block w-full p-2 rounded border"
+              ></textarea>
             </div>
-            <button type="submit" className="m-4 bg-cyan-950 text-white rounded px-8 py-2 hover:bg-amber-500"> Post Comment </button>
+            <button type="submit" className="m-4 bg-cyan-950 text-white rounded px-8 py-2 hover:bg-amber-500">
+              Post Comment
+            </button>
           </form>
         </div>
       </div>
@@ -58,3 +78,4 @@ const FormPage = () => {
 };
 
 export default FormPage;
+
