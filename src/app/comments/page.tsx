@@ -2,13 +2,19 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useCommentStore } from '../store/useCommentStore'; 
+import { useCommentStore } from '../store/useCommentStore';
+
+
+interface Post {
+  title: string;
+  passage: string;
+}
 
 const CommentsPage = () => {
+  // Step 2: Type posts as Post[]
+  const [posts, setPosts] = useState<Post[]>([]);
   const comments = useCommentStore((state) => state.comments); 
-  const [posts, setPosts] = useState([]);
 
- 
   useEffect(() => {
     const fetchPostsFromServer = async () => {
       try {
@@ -34,7 +40,7 @@ const CommentsPage = () => {
 
       <div className="p-6 my-6 max-w-4xl mx-auto bg-gray-400">
         <div className="flex flex-col md:flex-row gap-[100px]">
-          
+
           <div className="w-full md:w-1/2">
             <h2 className="text-2xl font-bold mb-4">All Comments</h2>
             <div className="space-y-4 text-left">
@@ -66,7 +72,6 @@ const CommentsPage = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
